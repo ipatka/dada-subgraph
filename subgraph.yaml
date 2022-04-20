@@ -1,0 +1,44 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DadaCollectible
+    network: mainnet
+    source:
+      address: "0x068696A3cf3c4676B65F1c9975dd094260109d02"
+      abi: DadaCollectible
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Assigned
+        - Transfer
+        - CollectibleTransfer
+        - CollectibleOffered
+        - CollectibleBidEntered
+        - CollectibleBidWithdrawn
+        - CollectibleBought
+        - CollectibleNoLongerForSale
+      abis:
+        - name: DadaCollectible
+          file: ./abis/DadaCollectible.json
+      eventHandlers:
+        - event: Assigned(indexed address,uint256,uint256)
+          handler: handleAssigned
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+        - event: CollectibleTransfer(indexed address,indexed address,uint256,uint256)
+          handler: handleCollectibleTransfer
+        - event: CollectibleOffered(indexed uint256,indexed uint256,uint256,indexed address,uint256)
+          handler: handleCollectibleOffered
+        - event: CollectibleBidEntered(indexed uint256,indexed uint256,uint256,indexed address)
+          handler: handleCollectibleBidEntered
+        - event: CollectibleBidWithdrawn(indexed uint256,indexed uint256,uint256,indexed address)
+          handler: handleCollectibleBidWithdrawn
+        - event: CollectibleBought(indexed uint256,uint256,uint256,indexed address,indexed address)
+          handler: handleCollectibleBought
+        - event: CollectibleNoLongerForSale(indexed uint256,indexed uint256)
+          handler: handleCollectibleNoLongerForSale
+      file: ./src/mapping.ts
