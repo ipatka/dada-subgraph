@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.2
 schema:
   file: ./schema.graphql
 dataSources:
@@ -8,37 +8,70 @@ dataSources:
     source:
       address: "0x068696A3cf3c4676B65F1c9975dd094260109d02"
       abi: DadaCollectible
+      startBlock: 4339476
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Assigned
-        - Transfer
-        - CollectibleTransfer
-        - CollectibleOffered
-        - CollectibleBidEntered
-        - CollectibleBidWithdrawn
-        - CollectibleBought
-        - CollectibleNoLongerForSale
+        - Collectible
+        - Collector
       abis:
         - name: DadaCollectible
           file: ./abis/DadaCollectible.json
       eventHandlers:
-        - event: Assigned(indexed address,uint256,uint256)
-          handler: handleAssigned
-        - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
         - event: CollectibleTransfer(indexed address,indexed address,uint256,uint256)
-          handler: handleCollectibleTransfer
-        - event: CollectibleOffered(indexed uint256,indexed uint256,uint256,indexed address,uint256)
-          handler: handleCollectibleOffered
-        - event: CollectibleBidEntered(indexed uint256,indexed uint256,uint256,indexed address)
-          handler: handleCollectibleBidEntered
-        - event: CollectibleBidWithdrawn(indexed uint256,indexed uint256,uint256,indexed address)
-          handler: handleCollectibleBidWithdrawn
+          handler: handle2017CollectibleTransfer
         - event: CollectibleBought(indexed uint256,uint256,uint256,indexed address,indexed address)
-          handler: handleCollectibleBought
-        - event: CollectibleNoLongerForSale(indexed uint256,indexed uint256)
-          handler: handleCollectibleNoLongerForSale
+          handler: handle2017CollectibleBought
+      file: ./src/mapping.ts
+  - kind: ethereum
+    name: DadaCollectibleWrapper
+    network: mainnet
+    source:
+      address: "0x5F53f9f5DcF76757f7CbF35C2e47164C65b9b5eD"
+      abi: DadaCollectibleWrapper
+      startBlock: 13863631
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Collectible
+        - Collector
+      abis:
+        - name: DadaCollectibleWrapper
+          file: ./abis/DadaCollectibleWrapper.json
+      eventHandlers:
+        - event: Wrapped2017(uint256,indexed uint256,uint256)
+          handler: handleWrap
+        - event: Wrapped2019(uint256,indexed uint256,uint256)
+          handler: handleWrap
+        - event: Unwrapped2017(uint256,indexed uint256,uint256)
+          handler: handleUnwrap
+        - event: Unwrapped2019(uint256,indexed uint256,uint256)
+          handler: handleUnwrap
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleWrappedTransfer
+      file: ./src/mapping.ts
+  - kind: ethereum
+    name: CollectiblesOwnership
+    network: mainnet
+    source:
+      address: "0x34d77a17038491A2a9Eaa6E690B7C7CD39FC8392"
+      abi: CollectiblesOwnership
+      startBlock: 7212637
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Collectible
+        - Collector
+      abis:
+        - name: CollectiblesOwnership
+          file: ./abis/CollectiblesOwnership.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handle2019CollectibleTransfer
       file: ./src/mapping.ts

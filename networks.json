@@ -2,6 +2,12 @@
   "mainnet": {
     "DadaCollectible": {
       "address": "0x068696A3cf3c4676B65F1c9975dd094260109d02"
+    },
+    "DadaCollectibleWrapper": {
+      "address": "0x5F53f9f5DcF76757f7CbF35C2e47164C65b9b5eD"
+    },
+    "CollectiblesOwnership": {
+      "address": "0x34d77a17038491A2a9Eaa6E690B7C7CD39FC8392"
     }
   }
 }

@@ -1,6 +1,15 @@
-type ExampleEntity @entity {
-  id: ID!
-  count: BigInt!
-  to: Bytes! # address
-  collectibleIndex: BigInt! # uint256
+enum TokenStatus {
+  Wrapped
+  Unwrapped
+}
+
+type Collectible @entity {
+  id: String!
+  owner: Collector
+  state: TokenStatus
+}
+
+type Collector @entity {
+  id: Bytes!
+  collectibles: [Collectible!]! @derivedFrom(field: "owner")
 }
