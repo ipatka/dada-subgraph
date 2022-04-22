@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: DadaCollectible
@@ -18,17 +18,17 @@ dataSources:
         - Collector
       abis:
         - name: DadaCollectible
-          file: ./abis/DadaCollectible.json
+          file: DadaCollectible/abis/DadaCollectible.json
         - name: DadaCollectibleWrapper
-          file: ./abis/DadaCollectibleWrapper.json
+          file: DadaCollectible/abis/DadaCollectibleWrapper.json
         - name: CollectiblesOwnership
-          file: ./abis/CollectiblesOwnership.json
+          file: DadaCollectible/abis/CollectiblesOwnership.json
       eventHandlers:
         - event: CollectibleTransfer(indexed address,indexed address,uint256,uint256)
           handler: handle2017CollectibleTransfer
         - event: CollectibleBought(indexed uint256,uint256,uint256,indexed address,indexed address)
           handler: handle2017CollectibleBought
-      file: ./src/mapping.ts
+      file: DadaCollectible/DadaCollectible.wasm
   - kind: ethereum
     name: DadaCollectibleWrapper
     network: mainnet
@@ -45,11 +45,11 @@ dataSources:
         - Collector
       abis:
         - name: DadaCollectible
-          file: ./abis/DadaCollectible.json
+          file: DadaCollectibleWrapper/abis/DadaCollectible.json
         - name: DadaCollectibleWrapper
-          file: ./abis/DadaCollectibleWrapper.json
+          file: DadaCollectibleWrapper/abis/DadaCollectibleWrapper.json
         - name: CollectiblesOwnership
-          file: ./abis/CollectiblesOwnership.json
+          file: DadaCollectibleWrapper/abis/CollectiblesOwnership.json
       eventHandlers:
         - event: Wrapped2017(uint256,indexed uint256,uint256)
           handler: handleWrap2017
@@ -61,7 +61,7 @@ dataSources:
           handler: handleUnwrap2019
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleWrappedTransfer
-      file: ./src/mapping.ts
+      file: DadaCollectible/DadaCollectible.wasm
   - kind: ethereum
     name: CollectiblesOwnership
     network: mainnet
@@ -78,12 +78,12 @@ dataSources:
         - Collector
       abis:
         - name: CollectiblesOwnership
-          file: ./abis/CollectiblesOwnership.json
+          file: CollectiblesOwnership/abis/CollectiblesOwnership.json
         - name: DadaCollectible
-          file: ./abis/DadaCollectible.json
+          file: CollectiblesOwnership/abis/DadaCollectible.json
         - name: DadaCollectibleWrapper
-          file: ./abis/DadaCollectibleWrapper.json
+          file: CollectiblesOwnership/abis/DadaCollectibleWrapper.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handle2019CollectibleTransfer
-      file: ./src/mapping.ts
+      file: DadaCollectible/DadaCollectible.wasm

@@ -15,6 +15,9 @@ export class Collectible extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("owner", Value.fromString(""));
+    this.set("state", Value.fromString(""));
   }
 
   save(): void {
@@ -42,45 +45,29 @@ export class Collectible extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get owner(): Bytes | null {
+  get owner(): string {
     let value = this.get("owner");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+    return value!.toString();
   }
 
-  set owner(value: Bytes | null) {
-    if (!value) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromBytes(<Bytes>value));
-    }
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
   }
 
-  get state(): string | null {
+  get state(): string {
     let value = this.get("state");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value!.toString();
   }
 
-  set state(value: string | null) {
-    if (!value) {
-      this.unset("state");
-    } else {
-      this.set("state", Value.fromString(<string>value));
-    }
+  set state(value: string) {
+    this.set("state", Value.fromString(value));
   }
 }
 
 export class Collector extends Entity {
-  constructor(id: Bytes) {
+  constructor(id: string) {
     super();
-    this.set("id", Value.fromBytes(id));
+    this.set("id", Value.fromString(id));
   }
 
   save(): void {
@@ -88,26 +75,24 @@ export class Collector extends Entity {
     assert(id != null, "Cannot save Collector entity without an ID");
     if (id) {
       assert(
-        id.kind == ValueKind.BYTES,
-        `Entities of type Collector must have an ID of type Bytes but the id '${id.displayData()}' is of type ${id.displayKind()}`
+        id.kind == ValueKind.STRING,
+        `Entities of type Collector must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
       );
-      store.set("Collector", id.toBytes().toHexString(), this);
+      store.set("Collector", id.toString(), this);
     }
   }
 
-  static load(id: Bytes): Collector | null {
-    return changetype<Collector | null>(
-      store.get("Collector", id.toHexString())
-    );
+  static load(id: string): Collector | null {
+    return changetype<Collector | null>(store.get("Collector", id));
   }
 
-  get id(): Bytes {
+  get id(): string {
     let value = this.get("id");
-    return value!.toBytes();
+    return value!.toString();
   }
 
-  set id(value: Bytes) {
-    this.set("id", Value.fromBytes(value));
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get collectibles(): Array<string> {
